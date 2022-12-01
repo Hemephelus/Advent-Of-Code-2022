@@ -19,9 +19,11 @@ def Calorie_Counting(line):
         elve_cal.append(0)
         elve_cal[elve_position] += int(l)
 
-    max_cal = max(elve_cal)
+    
+    m = sorted(elve_cal)
+    elve_sum = m[-1]+m[-2]+m[-3]
 
-    return max_cal
+    return elve_sum
         
 
 
