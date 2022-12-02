@@ -10,26 +10,28 @@ def output():
 #function here
 def Rock_Paper_Scissors(input):
     RPS_score = {
-        'X': 1,
-        'Y': 2,
-        'Z': 3,
+        'X': 0,
+        'Y': 3,
+        'Z': 6,
     }
 
     W_D_L = {
-        'A X': 3,
-        'B X': 0,
-        'C X': 6,
-        'A Y': 6,
-        'B Y': 3,
-        'C Y': 0,
-        'A Z': 0,
-        'B Z': 6,
-        'C Z': 3,
+        'A0': 3,
+        'B0': 1,
+        'C0': 2,
+        'A3': 1,
+        'B3': 2,
+        'C3': 3,
+        'A6': 2,
+        'B6': 3,
+        'C6': 1,
     }
     b = 0
     for i in input:
-      a =  W_D_L[i] + RPS_score[i.split(' ')[1]]
-      b += a
+        a = i.split(' ')
+        score =  RPS_score[a[1]]
+        shape_score =  W_D_L[f'{a[0]+str(score)}'] 
+        b += (shape_score + score)
 
     return b
 
