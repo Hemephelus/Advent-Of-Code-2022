@@ -10,6 +10,8 @@ def output():
 #function here
 def Rucksack_Reorganization(Rucksacks):
     total = 0
+    group = []
+    item_count = {}
     items = {
         'a' : 1,
         'b' : 2,
@@ -38,22 +40,28 @@ def Rucksack_Reorganization(Rucksacks):
         'y' : 25, 
         'z' : 26, 
     }
-    for Rucksack in Rucksacks:
-        half = int(len(Rucksack)/2)
-        compartment_A = Rucksack[0:half]    
-        compartment_B = Rucksack[half:]
-        unique_list = set(compartment_A)
-     
+    for i, Rucksack in enumerate(Rucksacks):
+        unique_list = list(set(Rucksack))
+
         for letter in unique_list:
-            position = compartment_B.find(letter)
-            if position >= 0:
+
+            if item_count.get(letter) == None:
+                item_count[letter] = 0
+
+            item_count[letter] += 1
+
+            if item_count[letter] >= 3:
                 if letter.isupper():
-                    item_value = items[letter.lower()]
-                    item_value += 26
+                    item_value = items[letter.lower()] + 26
+                
                 else:
                     item_value = items[letter]
-                               
                 total += item_value
+        print(item_count)
+        if i % 3 == 2:
+            item_count = {}
+            
+                               
 
             
     return total
