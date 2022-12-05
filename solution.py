@@ -47,7 +47,7 @@ def Supply_Stacks(rearrange_steps):
         del from_stack[0:move_num]
 
         starting_stacks[f'{from_num}'] = from_stack
-        starting_stacks[f'{to_num}'] = list(reversed(stacks_moved))  + starting_stacks[f'{to_num}']
+        starting_stacks[f'{to_num}'] = stacks_moved  + starting_stacks[f'{to_num}']
 
 
     for i in range(len(starting_stacks)):
