@@ -12,7 +12,7 @@ def Tuning_Trouble(data_stream):
     marker_char = 0
     marker = False
     for j,section  in enumerate(data_stream):
-        start_of_packet = data_stream[j:4+j]
+        start_of_packet = data_stream[j:14+j]
         print(start_of_packet)
         packet = {}
         
@@ -32,7 +32,7 @@ def Tuning_Trouble(data_stream):
         marker_char += 1
 
 
-    return marker_char + 4
+    return marker_char + 14
 
 
 # output function
