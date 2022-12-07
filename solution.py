@@ -1,6 +1,6 @@
 # Import here
 from support import txt_to_D_list,txt_to_string
-
+import re
 # Write Code here
 def output():
     # "input.txt"
@@ -11,55 +11,48 @@ def output():
     print(result)
 
 #function here
+cwd = root = {}
 def No_Space_Left_On_Device(terminal_output):
-    space_sum = 0
-    base_root = {'main_root':{}}
-    list_of_folders = ['main_root']
-    
+    stack = []
+
     for line in terminal_output:
-        print(base_root['main_root'])
-        current_folder = list_of_folders[-1]
-        if line == '$ cd /':
-            list_of_folders = ['main_root']
-            continue
-        
-        # print(list_of_folders)
-        if line == '$ cd ..':
-            list_of_folders.pop()
-            continue
+        line = line.strip()
+        if line[0] == "$":
+            if line[2] == "c":
+                dir = line[5:]
+                if dir == "/":
+                    cwd = root
+                    stack = []
+                elif dir == "..":
+                    cwd = stack.pop()
+                else:
+                    if dir not in cwd:
+                        cwd[dir] = {}
+                    stack.append(cwd)
+                    cwd = cwd[dir]
+        else:
+            x, y = line.split()
+            if x == "dir":
+                if y not in cwd:
+                    cwd[y] = {}
+            else:
+                cwd[y] = int(x)
+   
+    return solve()[1]
 
-        if '$ cd' in line:
-            new_folder = line.split(' ')[2]
-            list_of_folders.append(new_folder)
-            continue
+def solve(dir = root):
+    if type(dir) == int:
+        return (dir, 0)
+    size = 0
+    ans = 0
+    for child in dir.values():
+        s, a = solve(child)
+        size += s
+        ans += a
+    if size <= 100000:
+        ans += size
+    return (size, ans)
 
-        if line == '$ ls':
-            continue
-
-        ls_command(line,base_root,list_of_folders)
-        # print(current_folder)
-    print(base_root['main_root']['a']['e'])
-    return space_sum
-
-def ls_command(line,base_root,list_of_folders):
-    if 'dir' in line:
-        key_name = line.split(' ')[1]
-        current_folder = enter_folders(base_root,list_of_folders)
-        # ls_command(line,main_root,list_of_folders)
-        current_folder[key_name] = {}
-    else:
-        key_name = line.split(' ')[1]
-        current_folder = enter_folders(base_root,list_of_folders)
-        current_folder[key_name] = int(line.split(' ')[0])
-
-
-def enter_folders(base_root,list_of_folders):
-    l = base_root
-    for folder in list_of_folders:
-        l[folder] = l
-        # print(l)
-    
-    return l
 
 
 
