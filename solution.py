@@ -10,25 +10,44 @@ def output():
 
 #function here
 def Treetop_Tree_House(tree_map):
-    sum_visible = 0
+    max_scenic_score = float('-inf')
+
     trans_tree_map = [[row[i] for row in tree_map] for i in range(len(tree_map[0]))]
 
     for i,row in enumerate(tree_map):
         for j,value in enumerate(row):
             if i == 0 or j == 0:
-                sum_visible += 1
                 continue
 
             if i == len(tree_map)-1 or j == len(row)-1:
-                sum_visible += 1
                 continue
+            
+            left = calc_num_trees(int(value),tree_map[i][0:j],True)
+            right = calc_num_trees(int(value),tree_map[i][j+1:len(row)],False)
+            up = calc_num_trees(int(value),trans_tree_map[j][0:i],True)
+            down = calc_num_trees(int(value),trans_tree_map[j][i+1:len(tree_map)],False)
 
-            if int(value) <= int(max(tree_map[i][0:j])) and int(value) <= int(max(tree_map[i][j+1:len(row)])) and int(value) <= int(max(trans_tree_map[j][0:i]))  and int(value) <= int(max(trans_tree_map[j][i+1:len(tree_map)])):
-                continue
-            else:
-                sum_visible += 1
+            scenic_score = left * right * up * down
 
-    return sum_visible 
+            if scenic_score > max_scenic_score:
+                max_scenic_score = scenic_score
+
+    return max_scenic_score 
+
+def calc_num_trees(value,view_range,is_backward):
+    visible_trees = 0
+    for i,tree in enumerate(view_range):
+        if is_backward:
+            j = (i+1) * -1
+        else:
+            j = i
+
+        if value <= int(view_range[j]):
+            visible_trees += 1
+            break
+        visible_trees += 1
+
+    return visible_trees
 
 # output function
 output()
