@@ -18,3 +18,6 @@ def txt_to_2D_list(input):
         for j in D_List[i]:
             List_2D[i].append(j)
     return List_2D
+
+def transpose_2d_list(input):
+    return [[row[i] for row in input] for i in range(len(input[0]))]
