@@ -10,36 +10,58 @@ def output():
 
 #function here
 def Cathode_Ray_Tube(instructions):
+    display = '###.....................................'
+    CRT = ''
     total_signal_strength = 0
     cycle = 0
     X = []
     x = 1
-    i = 0
+    j = 0
+
     for instruction in instructions:
         y = instruction.split(' ')
 
         if len(y) == 2:
             command, value = y
 
+                
             for a in range(2):
                 cycle += 1
-                if cycle == (i*40)+20:
-                    X.append(x*((i*40)+20))
-                    i += 1
+                if display[j%40] == '#':
+                    CRT += '#'
+                if display[j%40] == '.':
+                    CRT += '.'
+                j += 1
+                if cycle%40 == 0:
+                    X.append(CRT)
+                    CRT = ''
 
             x += int(value)
+            s = x - 1
+            display = ''
+            for i in range(40):
+                if i >= s and i < s+3:
+                    display += '#'
+                    continue
+                display += '.'
             continue
-    
-        if cycle == (i*40)+20:
-            X.append(x*((i*40)+20))
-            i += 1
+
+        if display[j%40] == '#':
+            CRT += '#'
+        if display[j%40] == '.':
+            CRT += '.'
+        j += 1
+
         cycle += 1
+        if cycle%40 == 0:
+            X.append(CRT)
+            CRT = ''
 
-        if len(X) == 6:
-            break
 
+    for p in X:
+        print(p)
         
-    total_signal_strength = sum(X)
+    # total_signal_strength = sum(X)
     return total_signal_strength
 
 # output function
